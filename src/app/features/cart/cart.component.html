@@ -1,0 +1,15 @@
+<section class="cart-page">
+  <div class="page-title"><div><span>{{ i18n.t('myPurchase') }}</span><h1>{{ i18n.t('cart') }}</h1></div><a routerLink="/">← {{ i18n.t('continueShopping') }}</a></div>
+  <div class="cart-layout" *ngIf="cart.items$ | async as items">
+    <div class="cart-items">
+      <div class="empty" *ngIf="!items.length"><div>🎮</div><h2>{{ i18n.t('emptyCart') }}</h2><p>{{ i18n.t('emptyCartText') }}</p><a class="game-button" routerLink="/">{{ i18n.t('viewGames') }}</a></div>
+      <article *ngFor="let item of items">
+        <div class="thumb"><img [src]="item.product.imagenUrl" [alt]="item.product.nombre" /></div>
+        <div class="item-info"><span>{{ i18n.category(item.product.categoria) }}</span><h2>{{ item.product.nombre }}</h2><button type="button" (click)="cart.remove(item.product.id)">{{ i18n.t('remove') }}</button></div>
+        <label>{{ i18n.t('quantity') }}<select [value]="item.quantity" (change)="changeQuantity(item.product.id,$event)"><option *ngFor="let q of [1,2,3,4,5]" [value]="q">{{ q }}</option></select></label>
+        <strong>{{ item.product.precio * item.quantity | currency:'CLP':'symbol-narrow':'1.0-0':i18n.locale() }}</strong>
+      </article>
+    </div>
+    <aside *ngIf="items.length"><h2>{{ i18n.t('summary') }}</h2><div><span>{{ i18n.t('products') }} ({{ cart.count() }})</span><strong>{{ cart.total() | currency:'CLP':'symbol-narrow':'1.0-0':i18n.locale() }}</strong></div><div><span>{{ i18n.t('digitalDelivery') }}</span><strong>{{ i18n.t('free') }}</strong></div><hr/><div class="total"><span>{{ i18n.t('total') }}</span><strong>{{ cart.total() | currency:'CLP':'symbol-narrow':'1.0-0':i18n.locale() }}</strong></div><a class="game-button" routerLink="/checkout">{{ i18n.t('checkout') }} <span>→</span></a><p>{{ i18n.t('paymentDemo') }}</p></aside>
+  </div>
+</section>

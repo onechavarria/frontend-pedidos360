@@ -1,0 +1,16 @@
+<section class="detail-wrap">
+  <a class="back" routerLink="/">← {{ i18n.t('backCatalog') }}</a>
+  <div class="detail" *ngIf="product() as product">
+    <div class="cover"><img [src]="product.imagenUrl" [alt]="product.nombre" /></div>
+    <div class="info">
+      <span class="category">{{ i18n.category(product.categoria) }}</span>
+      <h1>{{ product.nombre }}</h1>
+      <section class="game-story"><h2>{{ i18n.t('aboutGame') }}</h2><p class="description">{{ i18n.productDescription(product.nombre, product.descripcion) }}</p></section>
+      <section class="highlights"><h2>{{ i18n.t('highlights') }}</h2><ul><li>{{ i18n.t('immersive') }}</li><li>{{ i18n.t('genreExperience') }}</li><li>{{ i18n.t('digitalDelivery') }}</li></ul></section>
+      <div class="price">{{ product.precio | currency:'CLP':'symbol-narrow':'1.0-0':i18n.locale() }}</div>
+      <button class="game-button" type="button" (click)="add()" [disabled]="product.stock === 0">{{ i18n.t('addCart') }} <span>→</span></button>
+      <div class="meta"><p><strong>{{ i18n.t('availability') }}</strong><span>{{ product.stock }} {{ i18n.t('units') }}</span></p><p><strong>{{ i18n.t('release') }}</strong><span>{{ product.fechaLanzamiento | date:'longDate':'':i18n.locale() }}</span></p></div>
+    </div>
+  </div>
+  <p class="state" *ngIf="loading()">{{ i18n.t('loadingGame') }}</p><p class="state" *ngIf="!loading() && !product()">{{ i18n.t('gameMissing') }}</p>
+</section>

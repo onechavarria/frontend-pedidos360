@@ -1,0 +1,13 @@
+<section class="checkout-page">
+  <div class="title"><span>{{ i18n.t('securePayment') }}</span><h1>{{ i18n.t('finishPurchase') }}</h1></div>
+  <div class="checkout-layout">
+    <div class="forms">
+      <section><div class="section-title"><span>1</span><div><h2>{{ i18n.t('paymentInfo') }}</h2><p>{{ i18n.t('demoCard') }}</p></div></div><div class="fields"><label class="wide">{{ i18n.t('cardNumber') }}<input [(ngModel)]="card" inputmode="numeric" autocomplete="cc-number" /></label><label>{{ i18n.t('expiration') }}<input [(ngModel)]="expiration" autocomplete="cc-exp" /></label><label>CVC<input [(ngModel)]="cvc" inputmode="numeric" autocomplete="cc-csc" /></label></div></section>
+      <section><div class="section-title"><span>2</span><div><h2>{{ i18n.t('deliveryData') }}</h2><p>{{ i18n.t('deliveryHint') }}</p></div></div><div class="fields"><label class="wide">{{ i18n.t('address') }}<input [(ngModel)]="shippingAddress" autocomplete="street-address" placeholder="Av. Providencia 1234, Santiago" /></label><label>{{ i18n.t('country') }}<select [(ngModel)]="country"><option>Chile</option><option>Bolivia</option><option>Argentina</option><option>Perú</option></select></label><label>{{ i18n.t('postalCode') }}<input [(ngModel)]="postalCode" autocomplete="postal-code" /></label></div><p class="account" *ngIf="auth.user$ | async as user">{{ i18n.language() === 'es' ? 'La confirmación quedará asociada a' : 'The confirmation will be linked to' }} <strong>{{ user.email }}</strong>.</p></section>
+      <p class="error" *ngIf="error()">{{ error() }}</p>
+      <button class="pay game-button" type="button" (click)="placeOrder()" [disabled]="processing() || !cart.count()">{{ processing() ? i18n.t('processing') : i18n.t('confirmPayment') }} <span>→</span></button>
+      <p class="demo">{{ i18n.t('paymentDemo') }}</p>
+    </div>
+    <aside><h2>{{ i18n.t('yourOrder') }}</h2><article *ngFor="let item of cart.items$ | async"><div><img [src]="item.product.imagenUrl" [alt]="item.product.nombre" /></div><p><strong>{{ item.product.nombre }}</strong><span>{{ i18n.t('quantity') }}: {{ item.quantity }}</span></p><b>{{ item.product.precio * item.quantity | currency:'CLP':'symbol-narrow':'1.0-0':i18n.locale() }}</b></article><hr/><div class="total"><span>{{ i18n.t('total') }}</span><strong>{{ cart.total() | currency:'CLP':'symbol-narrow':'1.0-0':i18n.locale() }}</strong></div></aside>
+  </div>
+</section>

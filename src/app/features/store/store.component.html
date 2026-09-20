@@ -1,0 +1,28 @@
+<section class="hero">
+  <div class="hero-copy"><span class="eyebrow">{{ i18n.t('digitalCatalog') }}</span><h1>{{ i18n.t('heroTitle') }}</h1><p>{{ i18n.t('heroText') }}</p></div>
+  <div class="hero-stat"><strong>{{ products().length }}</strong><span>{{ i18n.t('gamesAvailable') }}</span></div>
+</section>
+
+<section class="store-page">
+  <div class="store-toolbar">
+    <div><h2>{{ i18n.t('allGames') }}</h2><p>{{ filtered().length }} {{ i18n.t('results') }}</p></div>
+    <label class="search-box">
+      <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg>
+      <input type="search" [value]="search()" (input)="updateSearch($event)" [placeholder]="i18n.t('search')" [attr.aria-label]="i18n.t('search')" />
+    </label>
+  </div>
+
+  <div class="skeleton-grid" *ngIf="loading()"><span *ngFor="let item of [1,2,3,4]"></span></div>
+  <div class="product-grid" *ngIf="!loading()">
+    <a class="product-card" *ngFor="let product of filtered()" [routerLink]="['/game', product.id]">
+      <div class="product-image"><img [src]="product.imagenUrl" [alt]="'Portada de ' + product.nombre" loading="lazy" /></div>
+      <div class="product-body">
+        <div class="category-row"><span>{{ i18n.category(product.categoria) }}</span><span class="stock" [class.low]="product.stock < 15">{{ product.stock }} {{ i18n.t('available') }}</span></div>
+        <h3>{{ product.nombre }}</h3>
+        <div class="price-row"><strong>{{ product.precio | currency:'CLP':'symbol-narrow':'1.0-0':i18n.locale() }}</strong><span aria-hidden="true">→</span></div>
+      </div>
+    </a>
+  </div>
+
+  <div class="empty" *ngIf="!loading() && !filtered().length"><span>⌕</span><h3>{{ i18n.t('noResults') }}</h3><p>{{ i18n.t('tryAnother') }}</p></div>
+</section>

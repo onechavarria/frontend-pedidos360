@@ -1,0 +1,68 @@
+<header class="site-header">
+  <div class="header-inner">
+    <a class="brand" routerLink="/" (click)="closeMenu()" aria-label="Pedidos360, inicio">
+      <span class="brand-mark" aria-hidden="true">
+        <img src="/assets/brand/icono-control.png" alt="" />
+      </span>
+      <span>Pedidos<span>360</span></span>
+    </a>
+
+    <nav class="desktop-nav" aria-label="Navegación principal">
+      <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">{{ i18n.t('store') }}</a>
+      <a routerLink="/orders" routerLinkActive="active">{{ i18n.t('orders') }}</a>
+    </nav>
+
+    <div class="desktop-actions">
+      <ng-container *ngIf="auth.user$ | async as user; else guestDesktop">
+        <details class="user-menu">
+          <summary><span class="avatar">{{ user.name.charAt(0).toUpperCase() }}</span><span>{{ user.name }}</span><span>⌄</span></summary>
+          <div class="user-popover">
+            <div><span class="status-dot"></span><strong>{{ i18n.t('activeSession') }}</strong></div>
+            <p>{{ user.name }}</p><small>{{ user.email }}</small>
+            <button type="button" (click)="logout()">{{ i18n.t('logout') }}</button>
+          </div>
+        </details>
+      </ng-container>
+
+      <ng-template #guestDesktop>
+        <a class="login-link" routerLink="/auth/login">{{ i18n.t('login') }}</a>
+        <a class="signup game-button" routerLink="/auth/register">{{ i18n.t('register') }}</a>
+      </ng-template>
+
+      <label class="language-switch" [attr.aria-label]="i18n.t('language')">
+        <span aria-hidden="true">🌐</span>
+        <select [value]="i18n.language()" (change)="changeLanguage($any($event.target).value)">
+          <option value="es">ES</option><option value="en">EN</option>
+        </select>
+      </label>
+
+      <a class="cart" routerLink="/cart" aria-label="Ver carrito">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 4h2l2.2 10.2a2 2 0 0 0 2 1.6h7.8a2 2 0 0 0 1.9-1.4L21 7H6"/><circle cx="10" cy="20" r="1"/><circle cx="18" cy="20" r="1"/></svg>
+        <b>{{ cart.count() }}</b>
+      </a>
+    </div>
+
+    <button class="menu-button" type="button" (click)="toggleMenu()" [attr.aria-expanded]="menuOpen()" aria-label="Abrir menú">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+
+  <div class="mobile-panel" [class.open]="menuOpen()">
+    <nav aria-label="Navegación móvil">
+      <a routerLink="/" (click)="closeMenu()">{{ i18n.t('store') }}</a>
+      <a routerLink="/orders" (click)="closeMenu()">{{ i18n.t('orders') }}</a>
+      <a routerLink="/cart" (click)="closeMenu()">{{ i18n.t('cart') }} <span>{{ cart.count() }}</span></a>
+    </nav>
+    <ng-container *ngIf="auth.user$ | async as user; else guestMobile">
+      <div class="mobile-user"><strong>{{ user.name }}</strong><span>{{ user.email }}</span></div>
+      <button class="mobile-logout" type="button" (click)="logout()">{{ i18n.t('logout') }}</button>
+    </ng-container>
+    <ng-template #guestMobile>
+      <div class="mobile-auth">
+        <a routerLink="/auth/login" (click)="closeMenu()">{{ i18n.t('login') }}</a>
+        <a class="signup game-button" routerLink="/auth/register" (click)="closeMenu()">{{ i18n.t('register') }}</a>
+      </div>
+    </ng-template>
+    <label class="mobile-language"><span>🌐 {{ i18n.t('language') }}</span><select [value]="i18n.language()" (change)="changeLanguage($any($event.target).value)"><option value="es">Español</option><option value="en">English</option></select></label>
+  </div>
+</header>
