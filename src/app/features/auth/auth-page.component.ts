@@ -19,14 +19,13 @@ export class AuthPageComponent {
   readonly mode = signal<AuthMode>('login');
   readonly loading = signal(false);
   readonly showPassword = signal(false);
+  readonly passwordFocused = signal(false);
   readonly message = signal('');
   readonly activeProvider = signal('');
   readonly providers = [
     { id: 'google', label: 'Google' },
-    { id: 'apple', label: 'Apple' },
     { id: 'facebook', label: 'Facebook' },
-    { id: 'github', label: 'GitHub' },
-    { id: 'microsoft', label: 'Microsoft' }
+    { id: 'github', label: 'GitHub' }
   ] as const;
 
   readonly form = new FormGroup({
@@ -42,6 +41,7 @@ export class AuthPageComponent {
     this.route.data.subscribe((data) => {
       this.mode.set((data['mode'] as AuthMode) ?? 'login');
       this.message.set('');
+      this.passwordFocused.set(false);
     });
   }
 

@@ -12,7 +12,6 @@ export interface AuthSession {
 }
 
 export interface IdentityProvider {
-  name: 'google' | 'apple' | 'facebook' | 'github' | 'microsoft';
+  name: 'google' | 'facebook' | 'github';
   enabled: boolean;
 }
-

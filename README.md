@@ -13,7 +13,8 @@ Tienda responsive de videojuegos conectada al backend Node.js de Pedidos360. Inc
 
 - Interfaz bilingüe español/inglés; inicia en español y conserva la preferencia elegida.
 - Formularios profesionales de acceso y registro con logos reales de cada proveedor.
-- Acceso social preparado para Google, Apple, Facebook, GitHub y Microsoft.
+- Acceso social preparado únicamente para Google, Facebook y GitHub.
+- Aviso contextual de contraseña mínima de 8 caracteres en el registro.
 - Navbar fijo de escritorio y menú móvil con **Iniciar sesión**, **Crear cuenta** y selector de idioma.
 - Cards con bordes suaves, elevación y zoom al pasar el mouse o tocar.
 - Imágenes dimensionadas para escritorio, tablet y móvil sin recortes.
@@ -40,11 +41,11 @@ Ambos comandos levantan Angular en `http://localhost:4200`. Ya no necesitas escr
 
 ## Conexión con el backend
 
-En desarrollo, `public/runtime-config.js` ya apunta a:
+La copia entregada apunta al backend de producción:
 
 ```js
 window.__PEDIDOS360_CONFIG__ = {
-  apiUrl: 'http://localhost:3000/api/v1'
+  apiUrl: 'https://api-pedidos360.alcindo.tech/api/v1'
 };
 ```
 
@@ -57,7 +58,7 @@ npm ci
 npm run build
 ```
 
-Sube el contenido de `dist/frontend-pedido360/browser/` al directorio público del dominio. El `.htaccess` incluido permite abrir rutas como `/auth/login` o `/orders` sin errores 404.
+Sube **el contenido interior** de `dist/frontend-pedido360/browser/` a `public_html` del dominio `pedidos360.alcindo.tech`. No subas la carpeta `browser` como una subcarpeta. El `.htaccess` incluido permite abrir rutas como `/auth/login` o `/orders` sin errores 404.
 
 ## Estructura
 
